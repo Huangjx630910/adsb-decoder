@@ -21,20 +21,15 @@ sl = 0.5 + conv(upsampled, p);
 
 %% Calcul de la DSP de sl(t)
 GammaSl_Welch = Fse*Mon_Welch(sl, NFFT);
-f=-1/2:1/NFFT:1/2-1/NFFT;
-semilogy(f,GammaSl_Welch)
-hold all
+f=[-1/2 : 1/NFFT :1 /2-1/NFFT].*fe;
+
 
 %% DSP théorique
-GammaSl_Theo = 0;
-semilogy(f, GammaSl_Theo)
-legend('DSP pratique', 'DSP théorique')
+dirac_f = dirac(f) == Inf;
+GammaSl_Theo = 0.25*dirac_f + ((pi*f).^2*(Ts^3))/16.*(sinc(f*Ts/2)).^4;
 
 %% Restitution des résultats
-% sl(t) et rl(t)
-% time_axis = (0:length(bk)*Fse-1)*Te;
-% figure, plot(time_axis, sl)
-% title('sl(t)')
-% xlabel('Temps (s)')
-% ylabel('Amplitude')
-% axis([-inf +inf -0.1 1.1])
+semilogy(f,GammaSl_Welch)
+hold all
+semilogy(f, GammaSl_Theo)
+legend('DSP pratique', 'DSP théorique')

@@ -2,7 +2,7 @@ function [registre] = bit2registre(registre, data)
 
 crc_poly = [1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 0 0 0 0 0 1 0 0 1];
 detecteur = crc.detector(crc_poly);
-[decoded error] = detect(detecteur, data);
+[~, error] = detect(detecteur, data);
 
 if error==0 % Si pas d'erreur dans le CRC
     %%> FORMAT
@@ -26,7 +26,6 @@ if error==0 % Si pas d'erreur dans le CRC
             %%> TIME FLAG UTC
             registre.timeFlag = data(53);
             %%> CPR FLAG
-            i = data(54);
             registre.cprFlag = data(54);
             %%> ALTITUDE
             registre.altitude = 25 * bi2de([data(41:47)' data(49:52)'], 'left-msb') - 1000;

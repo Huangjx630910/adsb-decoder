@@ -33,7 +33,7 @@ if error==0 % Si pas d'erreur dans le CRC
             altitude = 25 * bi2de([data(41:47)' data(49:52)'], 'left-msb') - 1000;
             registre.altitude = int2str(altitude);
             %%> LATITUDE
-            lat_ref = 44.806575; % prise à l'ENSEIRB depuis GMaps
+            lat_ref = 44.806884;
             LAT = bi2de(data(55:71)', 'left-msb');
             Dlat = 360 / (4*15 - i); % 15=Nz
             j = floor(lat_ref/Dlat) + floor(1/2 ... 
@@ -42,7 +42,7 @@ if error==0 % Si pas d'erreur dans le CRC
             latitude = Dlat*(j+ LAT/2^17);
             registre.latitude = int2str(latitude);
             %%> LONGITUTDE
-            long_ref = -0.605654; % prise à l'ENSEIRB depuis GMaps
+            long_ref = -0.606629;
             LON = bi2de(data(72:88)', 'left-msb');
             if((cprNL(latitude) - i)>0) % calcul de Dlon
                 Dlon = 360/(cprNL(latitude) - i);
@@ -55,7 +55,7 @@ if error==0 % Si pas d'erreur dans le CRC
             longitude = Dlon*(m + LON/2^17);
             registre.longitude = int2str(longitude);
             %%> TRAJECTOIRE
-            registre.trajectoire = [registre.trajectoire ; [latitude longitude]];
+            registre.trajectoire = [registre.trajectoire  [longitude ; latitude]];
         end    
     end % END if(type == 17)
 end % END if pas d'erreur dans le CRC

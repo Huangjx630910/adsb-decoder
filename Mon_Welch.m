@@ -6,8 +6,8 @@ Nb_FFT = round(length(x)/NFFT);
 y = zeros(1, NFFT);
 
 for i=0:Nb_FFT-1
-    tranche = x(i*256+1:(i+1)*256);
-    temp = abs(fftshift(fft(tranche))).^2;
+    x_segment = x(i*NFFT+1:(i+1)*NFFT);
+    temp = abs(fftshift(fft(x_segment))).^2;
     y(:) = y(:)+temp;
 end
 

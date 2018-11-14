@@ -8,7 +8,7 @@ if error==0 % Si pas d'erreur dans le CRC
     %%> FORMAT
     registre.format = bi2de(data(1:5)', 'left-msb');
     %%> ADRESSE
-    registre.adresse = dec2hex(bin2dec(int2str(data(9:32)')));
+    registre.adresse = ['0x' dec2hex(bin2dec(int2str(data(9:32)')))];
     %%> TYPE
     registre.type = bi2de(data(33:37)', 'left-msb');
     

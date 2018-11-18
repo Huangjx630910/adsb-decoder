@@ -1,0 +1,50 @@
+function listeRegistresOut =LEPINE(listeRegistresIn,cplxBuffer,Fe,Ds,REF_LON,REF_LAT)
+% Veuillez garder ce nom de fonction et cet ordre dans les paramètres
+
+Fse = Fe/Ds;
+p=[-0.5*ones(1,Fse/2) 0.5*ones(1,Fse/2)]; % filtre
+
+%% Synchronisation buffer complexe
+%TODO
+
+%% Récupération trames avec seuillage (0.7)
+%TODO
+trames = cplxBuffer; % dont chaque colonne est une trame ADSB non décodée
+
+%% Décodage trames vers binaire
+[~,m] = size(trames);
+p=[-0.5*ones(1,Fse/2) 0.5*ones(1,Fse/2)];
+adsb_msgs = [];
+for i = 1:m
+    % Filtre adapté - Convolution pour obtenir rl(t)
+    yl = abs(trames(:,i));
+    rl=conv(yl, fliplr(p));
+    % Echantillonnage par Ts pour obtenir rm
+    indices = Fse:Fse:length(rl);
+    rm=rl(indices);
+    % Décision
+    decoded_est = rm<0;
+    adsb_msgs = [adsb_msgs [decoded_est(9:end)]];
+end
+
+%% Traitement des trames binaires
+[~,nb_adsb_msgs] = size(adsb_msgs);
+nb_avions = numel(ListRegIn);
+for i=1:nb_adsb_msgs
+   registre_temp = struct('adresse', [], ...
+                  'format', [], ...
+                  'type', [], ...
+                  'nom', [], ...
+                  'altitude', [], ...
+                  'timeFlag', [], ...
+                  'cprFlag', [], ...
+                  'latitude', [], ...
+                  'longitude', [], ...
+                  'trajectoire', []);
+    temp_registre = bit2registre(regitre_temp, adsb_msgs(:,i));
+    for j=1:nb_avions
+        if
+    end
+end
+
+listeRegistresOut = listeRegistresIn;

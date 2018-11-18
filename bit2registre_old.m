@@ -1,4 +1,4 @@
-function [registre] = bit2registre(registre, data, long_ref, lat_ref)
+function [registre] = bit2registre(registre, data)
 
 crc_poly = [1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 0 0 0 0 0 1 0 0 1];
 detecteur = crc.detector(crc_poly);
@@ -30,6 +30,7 @@ if error==0 % Si pas d'erreur dans le CRC
             %%> ALTITUDE
             registre.altitude = 25 * bi2de([data(41:47)' data(49:52)'], 'left-msb') - 1000;
             %%> LATITUDE
+            lat_ref = 44.806884;
             LAT = bi2de(data(55:71)', 'left-msb');
             Dlat = 360 / (4*15 - registre.cprFlag); % 15=Nz
             j = floor(lat_ref/Dlat) + floor(1/2 ... 
@@ -37,6 +38,7 @@ if error==0 % Si pas d'erreur dans le CRC
                 - LAT/(2^17));
             registre.latitude = Dlat*(j+ LAT/2^17);
             %%> LONGITUTDE
+            long_ref = -0.606629;
             LON = bi2de(data(72:88)', 'left-msb');
             if((cprNL(registre.latitude) - registre.cprFlag)>0) % calcul de Dlon
                 Dlon = 360/(cprNL(registre.latitude) - registre.cprFlag);

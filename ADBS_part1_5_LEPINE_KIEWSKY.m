@@ -83,3 +83,5 @@ detecteur = crc.detector(crc_poly);
 
 %% Restitution des résultats
 error
+
+%Marche pas !!

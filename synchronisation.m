@@ -24,18 +24,14 @@ function [ delta_t_est ] = synchronisation (rl, sp, mat_delta_t, Tp, Te, Fse)
 
     % p
     p=[a1./(a2*a3)];
-    
-    %end
-    
-    plot(p)
-    title('Evolution de p en focntion de delta t');
-    
+     
     
     % Argmax de p
     [max_p, argmax_p] = max(p);
     
     delta_t_est=argmax_p-1; % Soustraction de 1 car t0=t1 sous Matlab
     
-
+    plot(p)
+    title('Evolution de p en focntion de delta t');
 end
 

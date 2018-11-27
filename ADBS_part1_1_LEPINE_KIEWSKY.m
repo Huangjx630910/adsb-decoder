@@ -35,9 +35,12 @@ subplot(1,2,2), plot(time_axis, rl)
 title('rl(t)')
 xlabel('Temps (s)')
 ylabel('Amplitude')
+
 % Rm
 figure, subplot(1,2,1),stairs(rm)
 title('rm')
+
+% Bk
 bk = rm<0 % décision
 subplot(1,2,2),scatter(1:length(bk), bk)
 title('bk éstimés')

@@ -29,7 +29,7 @@ end
 
 %% Traitement des trames binaires
 [~,nb_adsb_msgs] = size(adsb_msgs);
-nb_avions = numel(ListRegIn);
+nb_avions = numel(listeRegistresIn);
 for i=1:nb_adsb_msgs
    temp_registre = struct('adresse', [], ...
                   'format', [], ...
@@ -59,13 +59,14 @@ for i=1:nb_adsb_msgs
         end
     end
     
-    if ~trouve
+    if ~trouve % on l'ajoute au registre
         new_registre = struct('adresse', [], ...
                   'nom', [], ...
                   'altitude', [], ...
                   'latitude', [], ...
                   'longitude', [], ...
                   'trajectoire', []);
+        new_registre.adresse = temp_registre.adresse;
         if(~isempty(temp_registre.nom))
            new_registre.nom = temp_registre.nom; 
         end

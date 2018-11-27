@@ -1,6 +1,5 @@
 function [y] = Mon_Welch(x, NFFT)
-%MON_WELCH Méthoded de Welch pour l'estimation de la DSP pour un découpage
-% en 256 points
+%MON_WELCH Méthoded de Welch pour l'estimation de la DSP
 
 Nb_FFT = round(length(x)/NFFT);
 y = zeros(1, NFFT);

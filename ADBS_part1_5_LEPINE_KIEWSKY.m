@@ -13,11 +13,9 @@ bk = randi([0,1], N, 1);
 crc_poly = [1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 0 0 0 0 0 1 0 0 1];
 generateur = crc.generator(crc_poly);
 encoded = generate(generateur, bk);
-
-%% Signal sl
-% Formation du message binaire de symboles Ak
 Ak = (-2*encoded)+1;
 
+%% Signal sl
 % Formation du signal modulé PPM sl(t)
 p=[-0.5*ones(1,10) 0.5*ones(1,10)];
 upsampled = upsample(encoded, Fse);
@@ -27,7 +25,6 @@ sl = sl(1:end-retard_introduit);
 sl=sl';
 
 %% Simulation du signal recu (utile pour vérification de delta_t)
-
 % Ajout du préambule 
 one=ones(1,10);
 zero=zeros(1,10);
@@ -39,11 +36,11 @@ delta_t_avion = floor(100*rand(1))
 sl_retard = [randi([0 1],1,delta_t_avion) sl];
 
 %Génération du bruit
-sigma2=1; % A verif
+sigma2=1;
 nl = randn(1,length(sl_retard))*sqrt(sigma2) + 1j*randn(1,length(sl_retard))*sqrt(sigma2); % BBGC complexe au rythme Te (car sl est complexe, le bruit doit s'appliquer aux 2 parties)
 
 % Ajout du bruit
-yl_retard = sl_retard+nl;  % Peut etre enlevé le bruit pour verif
+yl_retard = sl_retard+nl;
 
 
 %% Synchronisation 
@@ -59,7 +56,8 @@ rl=sl_retard+zl;
 est_delta_t = synchronisation(rl, sp, liste_delta_t, Tp/Ts, Te, Fse) 
 
 % Synchronisation en temps du signal recu sans le préambule
-yl=yl_retard(1,est_delta_t+length(sp):length(yl_retard)); 
+yl=yl_retard(1,est_delta_t+length(sp):length(yl_retard));
+yl=yl';
 
 %% Signal rl et rm
 
@@ -70,16 +68,8 @@ rl=conv(yl, fliplr(p))*Te;
 rm=rl(length(p):Fse:length(Ak)*Fse)/Te;
 
 %% Décision
-decoded_est = rm>0;
-
+decoded_est = rm<0;
 
 %% Décodage CRC
-
-% Introduction d'une erreur
-decoded_est(1) = ~decoded_est(1);
-
 detecteur = crc.detector(crc_poly);
 [decoded error] = detect(detecteur, decoded_est);
-
-%% Restitution des résultats
-error

@@ -33,7 +33,7 @@ rm=rl(length(p):Fse:length(Ak)*Fse)/Te;
 % Décision
 decoded_est = rm>0;
 
-% Introduction d'une erreur
+% Introduction d'une erreur (à décommenter)
 %decoded_est(1) = ~decoded_est(1);
 
 % Décodage CRC

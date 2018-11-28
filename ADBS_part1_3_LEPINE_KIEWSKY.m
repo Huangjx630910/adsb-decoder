@@ -33,20 +33,15 @@ paquet=0;
 nb_erreur_global=0; % Cumul de toutes les erreurs 
 
     while(nb_erreur_global<100) % Tant qu'il n'y a pas eu 100 erreurs cumulées
-        
         % Génération du bruit
         sigma2=sigmas2(j);
         nl = randn(length(sl),1)*sqrt(sigma2); % BBGC au rythme Te
-
         % Ajout du bruit
         yl=nl+sl;
-        
         % rl
         rl=conv(yl, fliplr(p))*Te; 
-
         % Echantillonnage par Ts pour obtenir rm
         rm=rl(length(p):Fse:length(bk)*Fse); % décalage de l'origine due au filtre de mise en forme qui est non causal
-
         % Decision
         bk_final = rm<0;
 
@@ -64,7 +59,7 @@ semilogy(RSB_db,TEB);
 hold on 
 semilogy(RSB_db,erfc(sqrt(RSB))/2); 
 hold off
-title('Taux d erreur binaire')
+title('Taux erreur binaire')
 xlabel('RSB[dB]');
 ylabel('TEB');
 legend('TEB theorique','TEB experimentale');

@@ -29,7 +29,7 @@ registre = struct('adresse', [], ...
 load('adsb_msgs.mat'); 
 [n,m] = size(adsb_msgs);
 for i = 1:m
-    registre = bit2registre(registre, adsb_msgs(:,i));
+    registre = bit2registre(registre, adsb_msgs(:,i), REF_LON, REF_LAT);
 end
 plot(registre.trajectoire(1,:), registre.trajectoire(2,:), '--')
 
